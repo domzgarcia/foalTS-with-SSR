@@ -7,7 +7,11 @@
     "build:app:w": "tsc -p tsconfig.app.json -w",
     "start": "node ./build/index.js",
     "start:w": "supervisor -w ./build --no-restart-on error ./build/index.js",
-    "develop": "npm run build:app && concurrently \"npm run build:app:w\" \"npm run start:w\"",
+    "build:front": "tsc -p tsconfig.browser.json",
+    "develop": "npm run build:front && concurrently \"build:app\" \"npm run build:app:w\" \"npm run start:w\"",
+    
+    "bw": "webpack --config webpack.develop.config.js -p && concurrently \"build:app\" \"npm run build:app:w\" \"npm run start:w\"",
+    
     "build:test": "copy-cli \"src/**/*.html\" build && tsc -p tsconfig.test.json",
     "build:test:w": "tsc -p tsconfig.test.json -w",
     "start:test": "mocha --file \"./build/test.js\" \"./build/**/*.spec.js\"",
@@ -37,7 +41,10 @@
     "react-dom": "^16.8.6",
     "source-map-support": "^0.5.1",
     "sqlite3": "^4.0.0",
-    "typeorm": "^0.2.6"
+    "systemjs": "^5.0.0",
+    "ts-loader": "^6.0.4",
+    "typeorm": "^0.2.6",
+    "webpack": "^4.38.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.1",
@@ -48,6 +55,7 @@
     "supertest": "^3.3.0",
     "supervisor": "^0.12.0",
     "tslint": "^5.10.0",
-    "typescript": "^3.3.3"
+    "typescript": "^3.3.3",
+    "webpack-cli": "^3.3.6"
   }
 }

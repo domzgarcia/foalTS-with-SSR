@@ -15,8 +15,23 @@ export class AppController {
   
   @Get('/react')
   async index() {
-    const content = ReactDOMServer.renderToString(<FrontEndApp title="Hello" />);
-    return new HttpResponseOK(content);
+    const spa = await this.getSPA();
+    const content = ReactDOMServer.renderToString(<FrontEndApp />);
+    const response = new HttpResponseOK(`
+      <style>.hidden{ display: none;}</style>
+      <div id="root"></div>
+      <div class="hidden" id="seo">
+      ${content}
+      </div>
+      <script>${spa}</script>
+    `);
+    response.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return response;
+  }
+
+  private async getSPA(): Promise<string> {
+    const spa = await promisify(readFile)(join(__dirname, '../../','dist/bundle.js'), 'utf8');
+    return spa;
   }
 
 }

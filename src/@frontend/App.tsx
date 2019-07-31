@@ -5,12 +5,17 @@ class FrontEndApp extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
     }
-
     render() {
         return (
             <React.Fragment>
                 <Header />
-                <h1>{this.props.title}</h1>
+                <button
+                    onClick={()=>{
+                        alert(1);
+                    }}
+                >
+                Press me dear Visitor!
+                </button>
             </React.Fragment>
         );
     }
